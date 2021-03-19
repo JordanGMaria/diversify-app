@@ -333,9 +333,7 @@ export default function Home({navigation}) {
               fixedDecimalScale={true}
             />{' '}
             / Rentabilidade{' '}
-            {parseFloat(
-              investimentos.atual -
-                investimentos.investido / investimentos.investido || 0,
+            {parseFloat((investimentos.atual / investimentos.investido) * 100 - 100 || 0,
             ).toFixed(2)}{' '}
             %
           </TextSubtitulo>
