@@ -47,7 +47,7 @@ export default function Login({navigation}) {
       console.log('err', err);
       const validationErrors = {};
       if (err instanceof Yup.ValidationError) {
-        Toast.show('Completar dados');
+        Toast.show('Verifique os dados', Toast.LONG);
 
         err.inner.forEach((error) => {
           validationErrors[error.path] = error.message;
@@ -85,6 +85,7 @@ export default function Login({navigation}) {
         <Button onPress={() => formRef.current.submitForm()}>
           <TextButton color="#ebeaea">Entrar</TextButton>
         </Button>
+        {/* 
         <TextSubtitulo>Ou</TextSubtitulo>
         <AreaDividida>
           <ButtonLogin>
@@ -108,6 +109,7 @@ export default function Login({navigation}) {
             </TextButton>
           </ButtonLogin>
         </AreaDividida>
+        */}
         <TouchableOpacity onPress={() => navigation.navigate('Registrar')}>
           <TextSubtitulo>Ainda não tenho conta</TextSubtitulo>
         </TouchableOpacity>

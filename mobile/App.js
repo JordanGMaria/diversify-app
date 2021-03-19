@@ -76,7 +76,7 @@ export default function App() {
               name="Registrar"
               component={Registrar}
               options={{
-                title: 'Etapa 1 / 2',
+                title: 'Etapa 1 / 1',
                 headerStyle: {
                   backgroundColor: '#ffff',
                 },
