@@ -1,9 +1,9 @@
 import React, {useRef, useEffect} from 'react';
-import {StatusBar, KeyboardAvoidingView} from 'react-native';
+import {StatusBar} from 'react-native';
 import Input from '../../components/Input';
 import InputMask from '../../components/InputMask';
 import {Form} from '@unform/mobile';
-import {Button, TextButton, Label, PageForm} from '../../components/styles';
+import {Button, TextButton, Label, PageForm, KeyboardAvoidingView} from '../../components/styles';
 import Toast from 'react-native-simple-toast';
 import wait from '../../core/wait';
 import * as Yup from 'yup';

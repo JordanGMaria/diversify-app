@@ -48,9 +48,13 @@ export const ButtonLogin = styled.TouchableOpacity`
 export const PageForm = styled.ScrollView`
   flex: 1;
   background-color: ${(props) => props.color || '#ffff'};
+`;
+
+export const KeyboardAvoidingView = styled.KeyboardAvoidingView`
   padding-top: 10px;
   padding-left: 10px;
   padding-right: 10px;
+  padding-bottom: 10px;
 `;
 
 export const Page = styled.ScrollView`
