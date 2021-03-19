@@ -55,7 +55,7 @@ export default function App() {
           content={
             <SideBar drawer={drawer} usuario={usuario} navigation={navigationRef.current} />
           }>
-          <Stack.Navigator initialRouteName={Authenticated ? 'Home' : 'Login'}>
+          <Stack.Navigator initialRouteName={Authenticated ? 'Home' : 'Inicial'}>
             <Stack.Screen
               name="Inicial"
               component={Inicial}

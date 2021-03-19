@@ -9,6 +9,66 @@ export const PageAuth = styled.View`
   flex: 1;
 `;
 
+export const Area1 = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const Area2 = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const TextBig = styled.Text`
+  color: #ffff;
+  font-family: 'Poppins-Bold';
+  font-size: 26px;
+`;
+
+export const TextBigSubtitulo = styled.Text`
+  color: #ffff;  
+  font-family: 'Poppins-Bold';
+  font-size: 13px;
+  font-weight: normal;
+`;
+
+export const ButtonInicial = styled.TouchableOpacity`
+  font-family: 'Poppins-Regular';
+  height: 46px;
+  align-self: stretch;
+  background: #202547;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #ffff;
+  border-radius: 20px;
+  justify-content: center;
+  align-items: center;
+  margin-left: 30px;
+  margin-right: 30px;
+  margin-top: 10px;
+`;
+
+export const ButtonInicialColor = styled.TouchableOpacity`
+  font-family: 'Poppins-Regular';
+  height: 46px;
+  align-self: stretch;
+  background: #2a356a;
+  border-radius: 20px;
+  justify-content: center;
+  align-items: center;
+  margin-left: 30px;
+  margin-right: 30px;
+  margin-top: 20px;
+`;
+
+export const TextButtonInicial = styled.Text`
+  font-family: 'Poppins-Regular';
+  color: #ffff;
+  font-size: 14px;
+`;
+
 export const AreaInfo = styled.View`
   padding-bottom: 20px;
   align-items: center;
