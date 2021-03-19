@@ -1,7 +1,7 @@
 {
-  "name": "controle-carteira",
+  "name": "Diversify",
   "version": "1.0.0",
-  "description": "Backend para a plataforma de controle de carteira",
+  "description": "Backend para a plataforma de controle de carteira de investimento",
   "main": "index.js",
   "dependencies": {
     "async": "^1.5.0",
