@@ -1,4 +1,4 @@
-const server = require("./app");
+const server = require("./app.js");
 var config = require("./config");
 
 var port = parseInt(config.initialPort);

@@ -9,4 +9,5 @@ else database = config.database
 mongoose.connect(database, {
   keepAlive: true,
   useNewUrlParser: true,
+  useUnifiedTopology: true
 });

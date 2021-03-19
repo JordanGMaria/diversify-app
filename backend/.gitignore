@@ -2,3 +2,5 @@ node_modules
 config.js
 uploads
 .DS_Store
+config.js
+package-lock.json
