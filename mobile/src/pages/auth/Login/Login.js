@@ -16,9 +16,11 @@ import Toast from 'react-native-simple-toast';
 import * as Yup from 'yup';
 import {login} from '../../../services/auth';
 import api from '../../../services/api';
+import { GlobalState} from '../../../core/state';
 
 export default function Login({navigation}) {
   const formRef = useRef(null);
+  const [, setAuthenticated] = GlobalState("Authenticated");
 
   async function handleSubmit(data) {
     try {
@@ -42,7 +44,8 @@ export default function Login({navigation}) {
       
       Toast.show('Login Efetuado com sucesso 🚀');
       await login(response.data.token);
-      navigation.navigate('Home');
+      setAuthenticated(true);
+      navigation.push('Home');
     } catch (err) {
       console.log('err', err);
       const validationErrors = {};

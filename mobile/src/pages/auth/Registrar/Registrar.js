@@ -16,9 +16,11 @@ import moment from 'moment';
 import * as Yup from 'yup';
 import {login} from '../../../services/auth';
 import api from '../../../services/api';
+import { GlobalState} from '../../../core/state';
 
 export default function Registrar({navigation}) {
   const formRef = useRef(null);
+  const [, setAuthenticated] = GlobalState("Authenticated");
 
   async function handleSubmit(data) {
     try {
@@ -43,7 +45,8 @@ export default function Registrar({navigation}) {
       }
       Toast.show('Cadastro Efetuado com sucesso 🚀');
       await login(response.data.token);
-      navigation.navigate('Home');
+      setAuthenticated(true);
+      navigation.push('Home');
     } catch (err) {
       const validationErrors = {};
       if (err instanceof Yup.ValidationError) {

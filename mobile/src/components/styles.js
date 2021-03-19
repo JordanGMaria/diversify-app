@@ -21,10 +21,15 @@ export const Area2 = styled.View`
   justify-content: center;
 `;
 
+export const Logo = styled.Image`
+  width: 150px;
+  height: 20px;
+`;
+
 export const TextBig = styled.Text`
   color: #ffff;
   font-family: 'Poppins-Bold';
-  font-size: 26px;
+  font-size: 22px;
 `;
 
 export const TextBigSubtitulo = styled.Text`

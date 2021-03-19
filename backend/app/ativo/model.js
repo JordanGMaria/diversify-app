@@ -16,7 +16,8 @@ const Schema = mongoose.Schema({
   usuario: {
     type: mongoose.Schema.ObjectId,
     ref: "Usuario",
-  }
+  },
+  dataCadastro: {type: Date, default: Date.now },
 });
 
 module.exports = mongoose.model('Ativo', Schema);

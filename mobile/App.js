@@ -18,11 +18,12 @@ import FazerAporte from './src/pages/Ativo/FazerAporte';
 import Ajustes from './src/pages/Ajustes/Ajustes';
 import Feedback from './src/pages/Feedback/Feedback';
 import Sobre from './src/pages/Sobre/Sobre';
+import {GlobalState} from './src/core/state';
 
 const Stack = createStackNavigator();
 
 export default function App() {
-  const [Authenticated, setAuthenticated] = useState(false);
+  const [Authenticated, setAuthenticated] = GlobalState("Authenticated");
   const [usuario, setusuario] = useState(null);
 
   const navigationRef = useRef(null);
@@ -40,7 +41,7 @@ export default function App() {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [navigationRef, Authenticated]);
 
   return (
     <SafeAreaProvider>

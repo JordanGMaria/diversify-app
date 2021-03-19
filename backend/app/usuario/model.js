@@ -12,7 +12,8 @@ const Schema = mongoose.Schema({
   password: String,
   nome: String,
   telefone: String,
-  dataNasc: Date
+  dataNasc: Date,
+  dataCadastro: {type: Date, default: Date.now },
 });
 
 Schema.pre('save', function(next) {

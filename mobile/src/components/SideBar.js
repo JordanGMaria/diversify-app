@@ -6,10 +6,12 @@ import {
   BodyBar,
   ListItem,
   TextSubtitulo,
+  Logo
 } from './styles';
 import {TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import { logout } from '../services/auth';
+import logo from '../../assets/Logo/Logo2.png'
 
 export default function SideBar({navigation, usuario, drawer}) {
 
@@ -39,6 +41,7 @@ export default function SideBar({navigation, usuario, drawer}) {
   return (
     <SideBarView>
       <HeaderBar>
+        <Logo source={logo} />
         <TextTituloBar>Olá {usuario ? usuario.nome : 'Investidor'}</TextTituloBar>
       </HeaderBar>
       <BodyBar>
