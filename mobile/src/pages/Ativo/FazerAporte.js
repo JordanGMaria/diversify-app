@@ -41,7 +41,7 @@ export default function FazerAporte({route, navigation}) {
 
       Toast.show('Ativo Salvo com sucesso 🚀');
 
-      navigation.navigate('Home');
+      navigation.push('Home');
     } catch (err) {
       const validationErrors = {};
       if (err instanceof Yup.ValidationError) {

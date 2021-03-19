@@ -367,7 +367,7 @@ export default function Home({navigation}) {
           buttonColor="#2a356a"
           nativeFeedbackRippleColor="rgba(255,255,255,1)"
           title="Adicionar Ativo"
-          onPress={() => navigation.navigate('Ativo')}>
+          onPress={() => navigation.push('Ativo')}>
           <IconButton name="addfolder" color="#FFF" size={17} />
         </ActionButton.Item>
         {lista.length > 0 && (
@@ -375,7 +375,7 @@ export default function Home({navigation}) {
             buttonColor="#2a356a"
             nativeFeedbackRippleColor="rgba(255,255,255,1)"
             title="Fazer Aporte"
-            onPress={() => navigation.navigate('Aporte')}>
+            onPress={() => navigation.push('Aporte')}>
             <Icon name="credit" color="#FFF" size={17} />
           </ActionButton.Item>
         )}

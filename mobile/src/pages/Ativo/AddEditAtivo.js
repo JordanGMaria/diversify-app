@@ -45,7 +45,7 @@ export default function AddEditAtivo({route, navigation}) {
 
       await wait(1000);
 
-      navigation.navigate('Home');
+      navigation.push('Home');
     } catch (err) {
       console.log('err', err);
       const validationErrors = {};
