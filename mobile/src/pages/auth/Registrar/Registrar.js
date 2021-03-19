@@ -11,11 +11,10 @@ import {
   Button,
   TextButton,
 } from '../../../components/styles';
-import Toast from 'react-native-toast-message';
+import Toast from 'react-native-simple-toast';
 import moment from 'moment';
 import * as Yup from 'yup';
 import {login} from '../../../services/auth';
-import {toastConfig} from '../../../core/toastConfig';
 import api from '../../../services/api';
 
 export default function Registrar({navigation}) {
@@ -24,9 +23,7 @@ export default function Registrar({navigation}) {
   async function handleSubmit(data) {
     try {
       const schema = Yup.object().shape({
-        email: Yup.string()
-          .email('Email inválido')
-          .required('Email é obrigatório'),
+        email: Yup.string().email('Email inválido').required('Email é obrigatório'),
         password: Yup.string().required('Senha é obrigatório'),
         nome: Yup.string().required('Nome é obrigatório'),
         telefone: Yup.string().required('Telefone é obrigatório'),
@@ -41,28 +38,16 @@ export default function Registrar({navigation}) {
 
       const response = await api.post('/registrar', data);
       if (!response.data.success) {
-        Toast.show({
-          text1: 'Erro',
-          text2: response.data.err,
-          type: 'error',
-        });
+        Toast.show(response.data.err,Toast.LONG);
         return;
       }
-      Toast.show({
-        text1: 'Sucesso',
-        text2: 'Cadastro Efetuado com sucesso 🚀',
-        type: 'success',
-      });
+      Toast.show('Cadastro Efetuado com sucesso 🚀');
       await login(response.data.token);
       navigation.navigate('Home');
     } catch (err) {
       const validationErrors = {};
       if (err instanceof Yup.ValidationError) {
-        Toast.show({
-          text1: 'Erro',
-          text2: 'Completar dados',
-          type: 'error',
-        });
+        Toast.show('Verifique os dados', Toast.LONG);
         err.inner.forEach((error) => {
           validationErrors[error.path] = error.message;
         });
@@ -73,7 +58,6 @@ export default function Registrar({navigation}) {
   return (
     <PageAuth>
       <StatusBar barStyle="light-content" backgroundColor="#202547" />
-      <Toast config={toastConfig} ref={(ref) => Toast.setRef(ref)} />
       <AreaForm ref={formRef} onSubmit={handleSubmit}>
         <AreaInfo>
           <TextTitulo>Faça seu registro</TextTitulo>

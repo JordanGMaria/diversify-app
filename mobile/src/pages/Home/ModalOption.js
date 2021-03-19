@@ -3,7 +3,7 @@ import {TouchableOpacity, View, StyleSheet, Alert} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/AntDesign';
-import Toast from 'react-native-toast-message';
+import Toast from 'react-native-simple-toast';
 import {TextTituloModal, TextSubTituloModal} from '../../components/styles';
 import api from '../../services/api';
 
@@ -25,18 +25,10 @@ export default function ModalOption({modalVisibleOption, ativo, closeModal}) {
             const response = await api.delete(`/jwt/ativo/${ativo._id}`);
             closeModal();
             if (response.data.success) {
-              Toast.show({
-                text1: 'Sucesso',
-                text2: 'Ativo Removido',
-                type: 'success',
-              });
+              Toast.show('Ativo Removido');
               setloading(true);
             } else {
-              Toast.show({
-                text1: 'Erro',
-                text2: response.data.err,
-                type: 'error',
-              });
+              Toast.show(response.data.err, Toast.LONG);
             }
           },
         },

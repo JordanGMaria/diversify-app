@@ -1,11 +1,10 @@
 import React, {useRef, useEffect} from 'react';
-import {StatusBar} from 'react-native';
+import {StatusBar, KeyboardAvoidingView} from 'react-native';
 import Input from '../../components/Input';
 import InputMask from '../../components/InputMask';
 import {Form} from '@unform/mobile';
-import {Page, Button, TextButton, Label, PageAuth} from '../../components/styles';
-import Toast from 'react-native-toast-message';
-import {toastConfig} from '../../core/toastConfig';
+import {Button, TextButton, Label, PageForm} from '../../components/styles';
+import Toast from 'react-native-simple-toast';
 import wait from '../../core/wait';
 import * as Yup from 'yup';
 import api from '../../services/api';
@@ -38,19 +37,11 @@ export default function AddEditAtivo({route, navigation}) {
       }
 
       if (!response.data.success) {
-        Toast.show({
-          text1: 'Erro',
-          text2: response.data.err,
-          type: 'error',
-        });
+        Toast.show(response.data.err, Toast.LONG);
         return;
       }
 
-      Toast.show({
-        text1: 'Sucesso',
-        text2: 'Ativo Salvo com sucesso 🚀',
-        type: 'success',
-      });
+      Toast.show('Ativo Salvo com sucesso 🚀');
 
       await wait(1000);
 
@@ -59,11 +50,7 @@ export default function AddEditAtivo({route, navigation}) {
       console.log('err', err);
       const validationErrors = {};
       if (err instanceof Yup.ValidationError) {
-        Toast.show({
-          text1: 'Erro',
-          text2: 'Completar dados',
-          type: 'error',
-        });
+        Toast.show('Verifique os dados', Toast.LONG);
         err.inner.forEach((error) => {
           validationErrors[error.path] = error.message;
         });
@@ -84,79 +71,84 @@ export default function AddEditAtivo({route, navigation}) {
   }, [route.params]);
 
   return (
-    <PageAuth>
-      <StatusBar barStyle="light-content" backgroundColor="#202547" />
-      <Toast config={toastConfig} ref={(ref) => Toast.setRef(ref)} />
-      <Form ref={formRef} onSubmit={handleSubmit}>
-        <Label>Nome Ativo (SIGLA)</Label>
-        <Input
-          name="nome"
-          autoCapitalize="none"
-          autoCorrect={false}
-          placeholder="Exemplo ITSA4"
-        />
-        <Label>Corretora</Label>
-        <Input
-          name="corretora"
-          autoCapitalize="none"
-          autoCorrect={false}
-          placeholder="Exemplo CLEAR"
-        />
-        <Label>Preço Médio do Ativo</Label>
-        <InputMask
-          name="preco_medio"
-          type={'money'}
-          options={{
-            precision: 2,
-            separator: ',',
-            delimiter: '.',
-            unit: 'R$',
-            suffixUnit: '',
-          }}
-          keyboardType={'numeric'}
-          placeholder="Preço Médio"
-        />
-        <Label>Quantidade</Label>
-        <Input
-          name="quantidade"
-          keyboardType={'numeric'}
-          placeholder="Quantidade"
-        />
-        <Label>Nota</Label>
-        <Input name="nota" keyboardType={'numeric'} placeholder="Exemplo 10" />
-        <Label>Preço atual da cotação</Label>
-        <InputMask
-          name="preco"
-          type={'money'}
-          options={{
-            precision: 2,
-            separator: ',',
-            delimiter: '.',
-            unit: 'R$',
-            suffixUnit: '',
-          }}
-          keyboardType={'numeric'}
-          placeholder="Preço"
-        />
-        <Label>Catergoria</Label>
-        <Input
-          name="tipo"
-          autoCapitalize="none"
-          autoCorrect={false}
-          placeholder="Exemplo Ação"
-        />
+    <PageForm>
+      <KeyboardAvoidingView>
+        <StatusBar barStyle="light-content" backgroundColor="#202547" />
+        <Form ref={formRef} onSubmit={handleSubmit}>
+          <Label>Nome Ativo (SIGLA)</Label>
+          <Input
+            name="nome"
+            autoCapitalize="none"
+            autoCorrect={false}
+            placeholder="Exemplo ITSA4"
+          />
+          <Label>Corretora</Label>
+          <Input
+            name="corretora"
+            autoCapitalize="none"
+            autoCorrect={false}
+            placeholder="Exemplo CLEAR"
+          />
+          <Label>Preço Médio do Ativo</Label>
+          <InputMask
+            name="preco_medio"
+            type={'money'}
+            options={{
+              precision: 2,
+              separator: ',',
+              delimiter: '.',
+              unit: 'R$',
+              suffixUnit: '',
+            }}
+            keyboardType={'numeric'}
+            placeholder="Preço Médio"
+          />
+          <Label>Quantidade</Label>
+          <Input
+            name="quantidade"
+            keyboardType={'numeric'}
+            placeholder="Quantidade"
+          />
+          <Label>Nota</Label>
+          <Input
+            name="nota"
+            keyboardType={'numeric'}
+            placeholder="Exemplo 10"
+          />
+          <Label>Preço atual da cotação</Label>
+          <InputMask
+            name="preco"
+            type={'money'}
+            options={{
+              precision: 2,
+              separator: ',',
+              delimiter: '.',
+              unit: 'R$',
+              suffixUnit: '',
+            }}
+            keyboardType={'numeric'}
+            placeholder="Preço"
+          />
+          <Label>Catergoria</Label>
+          <Input
+            name="tipo"
+            autoCapitalize="none"
+            autoCorrect={false}
+            placeholder="Exemplo Ação"
+          />
 
-        <Label>Setor</Label>
-        <Input
-          name="setor"
-          autoCapitalize="none"
-          autoCorrect={false}
-          placeholder="Financeiro"
-        />
-        <Button onPress={() => formRef.current.submitForm()}>
-          <TextButton color="#ebeaea">Salvar</TextButton>
-        </Button>
-      </Form>
-    </PageAuth>
+          <Label>Setor</Label>
+          <Input
+            name="setor"
+            autoCapitalize="none"
+            autoCorrect={false}
+            placeholder="Financeiro"
+          />
+          <Button onPress={() => formRef.current.submitForm()}>
+            <TextButton color="#ebeaea">Salvar</TextButton>
+          </Button>
+        </Form>
+      </KeyboardAvoidingView>
+    </PageForm>
   );
 }

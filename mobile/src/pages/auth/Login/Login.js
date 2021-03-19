@@ -12,10 +12,9 @@ import {
   TextButton,
   AreaDividida,
 } from '../../../components/styles';
-import Toast from 'react-native-toast-message';
+import Toast from 'react-native-simple-toast';
 import * as Yup from 'yup';
 import {login} from '../../../services/auth';
-import {toastConfig} from '../../../core/toastConfig';
 import api from '../../../services/api';
 
 export default function Login({navigation}) {
@@ -37,28 +36,18 @@ export default function Login({navigation}) {
       const response = await api.post('/login', data);
 
       if (!response.data.success) {
-        Toast.show({
-          text1: 'Erro',
-          text2: response.data.err,
-          type: 'error',
-        });
+        Toast.show(response.data.err,Toast.LONG);
         return;
       }
-      Toast.show({
-        text1: 'Sucesso',
-        text2: 'Login Efetuado com sucesso 🚀',
-        type: 'success',
-      });
+      
+      Toast.show('Login Efetuado com sucesso 🚀');
       await login(response.data.token);
       navigation.navigate('Home');
     } catch (err) {
+      console.log('err', err);
       const validationErrors = {};
       if (err instanceof Yup.ValidationError) {
-        Toast.show({
-          text1: 'Erro',
-          text2: 'Completar dados',
-          type: 'error',
-        });
+        Toast.show('Completar dados');
 
         err.inner.forEach((error) => {
           validationErrors[error.path] = error.message;
@@ -70,7 +59,6 @@ export default function Login({navigation}) {
 
   return (
     <PageAuth>
-      <Toast config={toastConfig} ref={(ref) => Toast.setRef(ref)} />
       <StatusBar barStyle="light-content" backgroundColor="#202547" />
       <AreaForm ref={formRef} onSubmit={handleSubmit}>
         <TextTitulo>Acessar carteira</TextTitulo>

@@ -3,8 +3,7 @@ import {StatusBar} from 'react-native';
 import Input from '../../components/Input';
 import {Form} from '@unform/mobile';
 import {Page, Button, TextButton, TextSubtitulo} from '../../components/styles';
-import Toast from 'react-native-toast-message';
-import {toastConfig} from '../../core/toastConfig';
+import Toast from 'react-native-simple-toast';
 import wait from '../../core/wait';
 import * as Yup from 'yup';
 import api from '../../services/api';
@@ -25,19 +24,11 @@ export default function Feedback({navigation}) {
       const response = await api.post('/jwt/feedback', data);
 
       if (!response.data.success) {
-        Toast.show({
-          text1: 'Erro',
-          text2: response.data.err,
-          type: 'error',
-        });
+        Toast.show(response.data.err,Toast.LONG);
         return;
       }
 
-      Toast.show({
-        text1: 'Sucesso',
-        text2: 'Feedback enviado com sucesso 🚀',
-        type: 'success',
-      });
+      Toast.show('Feedback enviado com sucesso 🚀');
 
       await wait(1000);
       navigation.navigate('Home');
@@ -45,11 +36,7 @@ export default function Feedback({navigation}) {
       console.log('err', err);
       const validationErrors = {};
       if (err instanceof Yup.ValidationError) {
-        Toast.show({
-          text1: 'Erro',
-          text2: 'Completar dados',
-          type: 'error',
-        });
+        Toast.show('Verifique os dados',Toast.LONG);
         err.inner.forEach((error) => {
           validationErrors[error.path] = error.message;
         });
@@ -61,7 +48,6 @@ export default function Feedback({navigation}) {
   return (
     <Page>
       <StatusBar barStyle="light-content" backgroundColor="#202547" />
-      <Toast config={toastConfig} ref={(ref) => Toast.setRef(ref)} />
       <TextSubtitulo>
         Conte sobre sua experiência com o uso do App
       </TextSubtitulo>

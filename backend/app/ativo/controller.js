@@ -2,7 +2,7 @@ const Model = require("./model");
 const mongoose = require("mongoose");
 
 exports.index = async (req, res) => {
-  
+  console.log("index")
   const aggregate = await Model.aggregate([
     { $match: { usuario: mongoose.Types.ObjectId(req.decoded._id) } },
     {

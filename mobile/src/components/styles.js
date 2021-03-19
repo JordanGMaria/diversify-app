@@ -45,6 +45,14 @@ export const ButtonLogin = styled.TouchableOpacity`
 
 // Padrão Style
 
+export const PageForm = styled.ScrollView`
+  flex: 1;
+  background-color: ${(props) => props.color || '#ffff'};
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+`;
+
 export const Page = styled.ScrollView`
   flex: 1;
   min-height: 800px;

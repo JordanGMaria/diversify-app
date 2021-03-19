@@ -1,11 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {
-  BackHandler,
   StatusBar,
   FlatList,
   ActivityIndicator,
   TouchableOpacity,
-  Alert,
   Text,
 } from 'react-native';
 import ActionButton from 'react-native-action-button';
@@ -28,11 +26,9 @@ import {
   Lucro,
 } from '../../components/styles';
 import CurrencyFormat from 'react-currency-format';
-import Toast from 'react-native-toast-message';
 import PTRView from 'react-native-pull-to-refresh';
 import api from '../../services/api';
 import ModalOption from './ModalOption';
-import {toastConfig} from '../../core/toastConfig';
 
 export default function Home({navigation}) {
   const [loading, setloading] = useState(true);
@@ -48,7 +44,7 @@ export default function Home({navigation}) {
   const [ativo, setativo] = useState(null);
   const [modalVisibleOption, setmodalVisibleOption] = useState(false);
 
-  const fetchData = async () => {
+  async function fetchData() {
     const response = await api.post('/jwt/ativo/list', {
       limit,
     });
@@ -81,10 +77,11 @@ export default function Home({navigation}) {
           return 0;
         }),
       );
-      setinvestimentos(response.data.aggregate);
-      setloading(false);
+
+      if (response.data.aggregate) setinvestimentos(response.data.aggregate);
     }
-  };
+    setloading(false);
+  }
 
   useEffect(() => {
     fetchData();
@@ -288,7 +285,6 @@ export default function Home({navigation}) {
             closeModal={closeModal}
             ativo={ativo}
           />
-          <Toast config={toastConfig} ref={(ref) => Toast.setRef(ref)} />
           <StatusBar barStyle="light-content" backgroundColor="#202547" />
           <TextTitulo>Carteira de Investimento</TextTitulo>
           <TextSubtitulo>
@@ -344,7 +340,13 @@ export default function Home({navigation}) {
             %
           </TextSubtitulo>
           <TextTitulo>Seus Ativos</TextTitulo>
-          {loading ? <ActivityIndicator style={{ marginBottom: 20 }} size="large" color="#000" /> : null}
+          {loading ? (
+            <ActivityIndicator
+              style={{marginBottom: 20}}
+              size="large"
+              color="#000"
+            />
+          ) : null}
 
           <FlatList
             data={lista}
@@ -370,13 +372,15 @@ export default function Home({navigation}) {
           onPress={() => navigation.navigate('Ativo')}>
           <IconButton name="addfolder" color="#FFF" size={17} />
         </ActionButton.Item>
-        <ActionButton.Item
-          buttonColor="#2a356a"
-          nativeFeedbackRippleColor="rgba(255,255,255,1)"
-          title="Fazer Aporte"
-          onPress={() => navigation.navigate('Aporte')}>
-          <Icon name="credit" color="#FFF" size={17} />
-        </ActionButton.Item>
+        {lista.length > 0 && (
+          <ActionButton.Item
+            buttonColor="#2a356a"
+            nativeFeedbackRippleColor="rgba(255,255,255,1)"
+            title="Fazer Aporte"
+            onPress={() => navigation.navigate('Aporte')}>
+            <Icon name="credit" color="#FFF" size={17} />
+          </ActionButton.Item>
+        )}
       </ActionButton>
     </>
   );

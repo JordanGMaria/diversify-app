@@ -3,7 +3,7 @@ import axios from 'axios';
 import { getToken } from "./auth";
 
 const api = axios.create({
-  baseURL: 'http://localhost:6745/api',
+  baseURL: 'http://0449641ae6c2.ngrok.io/api',
 });
 
 api.interceptors.request.use(async config => {

@@ -1,18 +1,13 @@
-var express = require("express");
-var bodyParser = require("body-parser");
-var app = express();
-var server = require("http").Server(app);
-var cors = require("cors");
+const express = require("express");
+const bodyParser = require("body-parser");
+const app = express();
+const server = require("http").Server(app);
+const cors = require("cors");
+
 require("./connection");
-app.use(
-  bodyParser.json({
-    limit: "50mb",
-  })
-);
 
 app.use(
-  bodyParser.urlencoded({
-    extended: true,
+  bodyParser.json({
     limit: "50mb",
   })
 );

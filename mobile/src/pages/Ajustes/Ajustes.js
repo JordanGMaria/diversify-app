@@ -1,12 +1,11 @@
 import React, {useRef, useEffect, useState} from 'react';
-import {StatusBar} from 'react-native';
+import {StatusBar, KeyboardAvoidingView} from 'react-native';
 import Input from '../../components/Input';
 import InputMask from '../../components/InputMask';
 import {Form} from '@unform/mobile';
-import {Page, Button, TextButton} from '../../components/styles';
-import Toast from 'react-native-toast-message';
+import {PageForm, Button, TextButton} from '../../components/styles';
+import Toast from 'react-native-simple-toast';
 import moment from 'moment';
-import {toastConfig} from '../../core/toastConfig';
 import wait from '../../core/wait';
 import * as Yup from 'yup';
 import api from '../../services/api';
@@ -37,19 +36,11 @@ export default function Ajustes({navigation}) {
       const response = await api.put('/jwt/usuario', data);
 
       if (!response.data.success) {
-        Toast.show({
-          text1: 'Erro',
-          text2: response.data.err,
-          type: 'error',
-        });
+        Toast.show(response.data.err, Toast.LONG);
         return;
       }
 
-      Toast.show({
-        text1: 'Sucesso',
-        text2: 'Alterações Salva com sucesso 🚀',
-        type: 'success',
-      });
+      Toast.show('Alterações Salva com sucesso 🚀');
 
       await wait(1000);
 
@@ -58,11 +49,7 @@ export default function Ajustes({navigation}) {
       console.log('err', err);
       const validationErrors = {};
       if (err instanceof Yup.ValidationError) {
-        Toast.show({
-          text1: 'Erro',
-          text2: 'Completar dados',
-          type: 'error',
-        });
+        Toast.show('Verifique os dados', Toast.LONG);
         err.inner.forEach((error) => {
           validationErrors[error.path] = error.message;
         });
@@ -88,49 +75,50 @@ export default function Ajustes({navigation}) {
   }, []);
 
   return (
-    <Page>
-      <StatusBar barStyle="light-content" backgroundColor="#202547" />
-      <Toast config={toastConfig} ref={(ref) => Toast.setRef(ref)} />
-      <Form ref={formRef} onSubmit={handleSubmit}>
-        <Input
-          name="nome"
-          autoCapitalize="none"
-          autoCorrect={true}
-          placeholder="Nome completo"
-        />
-        <InputMask
-          name="dataNasc"
-          type={'custom'}
-          keyboardType={'numeric'}
-          options={{
-            mask: '99/99/9999',
-          }}
-          autoCapitalize="none"
-          autoCorrect={true}
-          placeholder="Data de Nascimento"
-        />
-        <InputMask
-          name="telefone"
-          type={'custom'}
-          keyboardType={'numeric'}
-          options={{
-            mask: '(99) 99999-9999',
-          }}
-          autoCapitalize="none"
-          autoCorrect={true}
-          placeholder="Telefone"
-        />
-        <Input
-          name="email"
-          autoCapitalize="none"
-          autoCorrect={false}
-          placeholder="Email"
-        />
+    <PageForm>
+      <KeyboardAvoidingView>
+        <StatusBar barStyle="light-content" backgroundColor="#202547" />
+        <Form ref={formRef} onSubmit={handleSubmit}>
+          <Input
+            name="nome"
+            autoCapitalize="none"
+            autoCorrect={true}
+            placeholder="Nome completo"
+          />
+          <InputMask
+            name="dataNasc"
+            type={'custom'}
+            keyboardType={'numeric'}
+            options={{
+              mask: '99/99/9999',
+            }}
+            autoCapitalize="none"
+            autoCorrect={true}
+            placeholder="Data de Nascimento"
+          />
+          <InputMask
+            name="telefone"
+            type={'custom'}
+            keyboardType={'numeric'}
+            options={{
+              mask: '(99) 99999-9999',
+            }}
+            autoCapitalize="none"
+            autoCorrect={true}
+            placeholder="Telefone"
+          />
+          <Input
+            name="email"
+            autoCapitalize="none"
+            autoCorrect={false}
+            placeholder="Email"
+          />
 
-        <Button onPress={() => formRef.current.submitForm()}>
-          <TextButton color="#ebeaea">Salvar</TextButton>
-        </Button>
-      </Form>
-    </Page>
+          <Button onPress={() => formRef.current.submitForm()}>
+            <TextButton color="#ebeaea">Salvar</TextButton>
+          </Button>
+        </Form>
+      </KeyboardAvoidingView>
+    </PageForm>
   );
 }

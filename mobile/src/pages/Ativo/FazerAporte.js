@@ -1,11 +1,10 @@
 import React, {useRef, useEffect, useState} from 'react';
-import {StatusBar, View, StyleSheet} from 'react-native';
+import {StatusBar, View, StyleSheet, KeyboardAvoidingView} from 'react-native';
 import Input from '../../components/Input';
 import InputMask from '../../components/InputMask';
 import {Form} from '@unform/mobile';
-import {Page, Button, TextButton} from '../../components/styles';
-import Toast from 'react-native-toast-message';
-import {toastConfig} from '../../core/toastConfig';
+import {PageForm, Button, TextButton} from '../../components/styles';
+import Toast from 'react-native-simple-toast';
 import Select from 'react-native-select-two';
 import * as Yup from 'yup';
 import api from '../../services/api';
@@ -30,40 +29,23 @@ export default function FazerAporte({route, navigation}) {
       data.ativo = ativo;
 
       if (!data.ativo) {
-        Toast.show({
-          text1: 'Erro',
-          text2: 'Selecionar um Ativo',
-          type: 'error',
-        });
+        Toast.show('Selecionar um Ativo', Toast.LONG);
       }
 
       const response = await api.post('/jwt/ativo/aporte', data);
 
       if (!response.data.success) {
-        Toast.show({
-          text1: 'Erro',
-          text2: response.data.err,
-          type: 'error',
-        });
+        Toast.show(response.data.err, Toast.LONG);
         return;
       }
 
-      Toast.show({
-        text1: 'Sucesso',
-        text2: 'Ativo Salvo com sucesso 🚀',
-        type: 'success',
-      });
+      Toast.show('Ativo Salvo com sucesso 🚀');
 
       navigation.navigate('Home');
     } catch (err) {
-      console.log('err', err);
       const validationErrors = {};
       if (err instanceof Yup.ValidationError) {
-        Toast.show({
-          text1: 'Erro',
-          text2: 'Completar dados',
-          type: 'error',
-        });
+        Toast.show('Verifique os dados', Toast.LONG);
         err.inner.forEach((error) => {
           validationErrors[error.path] = error.message;
         });
@@ -101,52 +83,53 @@ export default function FazerAporte({route, navigation}) {
   }, [route.params]);
 
   return (
-    <Page>
-      <StatusBar barStyle="light-content" backgroundColor="#202547" />
-      <Toast config={toastConfig} ref={(ref) => Toast.setRef(ref)} />
-      <Form ref={formRef} onSubmit={handleSubmit}>
-        <View style={{marginRight: 10, marginLeft: 10}}>
-          <Select
-            isSelectSingle
-            colorTheme="#202547"
-            popupTitle="Selecionar Ativo"
-            title="Selecionar Ativo"
-            searchPlaceHolderText="Selecionar Ativo"
-            cancelButtonText="Cancelar"
-            selectButtonText="Selecionar"
-            style={style.select}
-            data={lista}
-            onSelect={(data) => {
-              setativo(data[0]);
+    <PageForm>
+      <KeyboardAvoidingView>
+        <StatusBar barStyle="light-content" backgroundColor="#202547" />
+        <Form ref={formRef} onSubmit={handleSubmit}>
+          <View style={{marginRight: 10, marginLeft: 10}}>
+            <Select
+              isSelectSingle
+              colorTheme="#202547"
+              popupTitle="Selecionar Ativo"
+              title="Selecionar Ativo"
+              searchPlaceHolderText="Selecionar Ativo"
+              cancelButtonText="Cancelar"
+              selectButtonText="Selecionar"
+              style={style.select}
+              data={lista}
+              onSelect={(data) => {
+                setativo(data[0]);
+              }}
+            />
+          </View>
+          <InputMask
+            name="preco"
+            type={'money'}
+            options={{
+              precision: 2,
+              separator: ',',
+              delimiter: '.',
+              unit: 'R$',
+              suffixUnit: '',
             }}
+            keyboardType={'numeric'}
+            options={{
+              mask: '99/99/9999',
+            }}
+            placeholder="Preço Compra"
           />
-        </View>
-        <InputMask
-          name="preco"
-          type={'money'}
-          options={{
-            precision: 2,
-            separator: ',',
-            delimiter: '.',
-            unit: 'R$',
-            suffixUnit: '',
-          }}
-          keyboardType={'numeric'}
-          options={{
-            mask: '99/99/9999',
-          }}
-          placeholder="Preço Compra"
-        />
-        <Input
-          name="quantidade"
-          keyboardType={'numeric'}
-          placeholder="Quantidade"
-        />
-        <Button onPress={() => formRef.current.submitForm()}>
-          <TextButton color="#ebeaea">Salvar</TextButton>
-        </Button>
-      </Form>
-    </Page>
+          <Input
+            name="quantidade"
+            keyboardType={'numeric'}
+            placeholder="Quantidade"
+          />
+          <Button onPress={() => formRef.current.submitForm()}>
+            <TextButton color="#ebeaea">Salvar</TextButton>
+          </Button>
+        </Form>
+      </KeyboardAvoidingView>
+    </PageForm>
   );
 }
 
