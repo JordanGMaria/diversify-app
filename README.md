@@ -10,10 +10,10 @@ App para controle de diversificação de ativos em sua carteira de investimento.
 
 # Screenshots
 
-![alt text](./Docs/Prints/1.jpg =250x)
-![alt text](./Docs/Prints/2.jpg =250x)
-![alt text](./Docs/Prints/3.jpg =250x)
-![alt text](./Docs/Prints/4.jpg =250x)
-![alt text](./Docs/Prints/5.jpg =250x)
-![alt text](./Docs/Prints/6.jpg =250x)
-![alt text](./Docs/Prints/7.jpg =250x)
+![alt text](./Docs/Prints/1.jpg){ height=50% }
+![alt text](./Docs/Prints/2.jpg){ height=50% }
+![alt text](./Docs/Prints/3.jpg){ height=50% }
+![alt text](./Docs/Prints/4.jpg){ height=50% }
+![alt text](./Docs/Prints/5.jpg){ height=50% }
+![alt text](./Docs/Prints/6.jpg){ height=50% }
+![alt text](./Docs/Prints/7.jpg){ height=50% }
