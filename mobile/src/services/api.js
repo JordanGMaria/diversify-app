@@ -3,7 +3,7 @@ import axios from 'axios';
 import { getToken } from "./auth";
 
 const api = axios.create({
-  baseURL: 'http://681ff51ff6f9.ngrok.io/api',
+  baseURL: 'https://diversify.app.br/api',
 });
 
 api.interceptors.request.use(async config => {
