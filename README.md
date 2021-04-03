@@ -5,8 +5,9 @@ App para controle de diversificação de ativos em sua carteira de investimento.
 # Technologies
 
 - Backend NodeJs
+- Frontend Vue3
 - Mobile React Native
-- Site Tailwind 
+- Site Tailwind CSS
 
 # Screenshots
 

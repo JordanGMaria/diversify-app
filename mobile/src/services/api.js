@@ -3,7 +3,8 @@ import axios from 'axios';
 import { getToken } from "./auth";
 
 const api = axios.create({
-  baseURL: 'https://diversify.app.br/api',
+  baseURL: 'http://localhost:6745/api'
+  //baseURL: 'https://diversify.app.br/api',
 });
 
 api.interceptors.request.use(async config => {
