@@ -36,7 +36,7 @@ function InputForm({name, ...rest}) {
       setstyleComponent({borderColor: '#d9534f'});
       setplaceholderTextColor('#d9534f');
     } else {
-      setplaceholderTextColor('#202547');
+      setplaceholderTextColor('#999');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error]);

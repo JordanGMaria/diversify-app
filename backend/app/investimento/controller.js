@@ -1,6 +1,5 @@
 const Model = require('./model');
 const mongoose = require('mongoose');
-const Investimento = require('../investimento/model');
 const config = require('../../config');
 const {IncomingWebhook} = require('@slack/webhook');
 
@@ -29,43 +28,21 @@ async function sendError(error, body, namefunction, res) {
 
 exports.index = async (req, res) => {
   try {
-    const aggregate = await Model.aggregate([
-      {
-        $lookup: {
-          from: 'investimentos',
-          localField: 'investimento',
-          foreignField: '_id',
-          as: 'investimento',
-        },
-      },
-      {$unwind: '$investimento'},
-      {
-        $match: {
-          ativo: true,
-          usuario: mongoose.Types.ObjectId(req.decoded._id),
-        },
-      },
-      {
-        $group: {
-          _id: null,
-          investido: {$sum: {$multiply: ['$quantidade', '$preco_medio']}},
-          atual: {$sum: {$multiply: ['$quantidade', '$investimento.preco']}},
-          notas: {$sum: '$nota'},
-        },
-      },
-    ]);
-
     const filtro = {
       ativo: true,
-      usuario: req.decoded._id,
     };
 
-    let query = Model.find(filtro).populate('investimento categoria');
+    if (req.body.categoria) {
+      filtro.categoria = req.body.categoria;
+    }
+
+    let query = Model.find(filtro);
 
     if (!req.body.all) {
       query.skip(req.body.skip || 0);
       query.limit(req.body.limit || 5);
     }
+
     let data = await query.exec();
 
     const total = await Model.find(filtro).count();
@@ -73,51 +50,9 @@ exports.index = async (req, res) => {
     res.json({
       total,
       data,
-      aggregate: aggregate[0],
     });
   } catch (error) {
-    await sendError(error, req.body, 'LIST ATIVOS', res);
-  }
-};
-
-exports.aporte = async (req, res) => {
-  try {
-    const ativo = await Model.findById(req.body.ativo);
-
-    if (!ativo) {
-      res.json({
-        success: false,
-        err: 'OPS!!! Ativo Não encontrado',
-        form: req.body,
-      });
-    }
-
-    const quantidade = parseInt(req.body.quantidade);
-    const preco = parseFloat(req.body.preco);
-
-    ativo.preco_medio = parseFloat(
-      (ativo.preco_medio * ativo.quantidade + quantidade * preco) /
-        (ativo.quantidade + quantidade)
-    ).toFixed(2);
-
-    ativo.quantidade += quantidade;
-
-    const data = await ativo.save();
-
-    if (data) {
-      res.json({
-        success: true,
-        data,
-      });
-    } else {
-      res.json({
-        success: false,
-        err: 'OPS!!! Algum erro ocorreu',
-        form: req.body,
-      });
-    }
-  } catch (error) {
-    await sendError(error, req.body, 'APORTE', res);
+    await sendError(error, req.body, 'LIST INVESTIMENTOS', res);
   }
 };
 
@@ -137,14 +72,13 @@ exports.get = async (req, res) => {
       });
     }
   } catch (error) {
-    await sendError(error, req.body, 'GET ATIVO', res);
+    await sendError(error, req.body, 'GET INVESTIMENTO', res);
   }
 };
 
 exports.new = async (req, res) => {
   try {
     var model = new Model(req.body);
-    model.usuario = req.decoded._id;
 
     const data = await model.save();
 
@@ -159,13 +93,13 @@ exports.new = async (req, res) => {
       res.json({
         success: false,
         data,
-        err: 'OPS!!! Algum erro ocorreu',
+        err: 'OPS!!! Some error has ocurred',
         res: 'Erro ao salvar aluno.',
         form: req.body,
       });
     }
   } catch (error) {
-    await sendError(error, req.body, 'NOVO ATIVO', res);
+    await sendError(error, req.body, 'NOVO INVESTIMENTO', res);
   }
 };
 
@@ -183,11 +117,11 @@ exports.delete = async (req, res) => {
     } else {
       res.json({
         success: false,
-        err: 'OPS!!! Algum erro ocorreu',
+        err: 'An error has occured',
       });
     }
   } catch (error) {
-    await sendError(error, req.body, 'REMOVE ATIVO', res);
+    await sendError(error, req.body, 'REMOVE INVESTIMENTO', res);
   }
 };
 
@@ -218,6 +152,6 @@ exports.edit = async (req, res) => {
       });
     }
   } catch (error) {
-    await sendError(error, req.body, 'EDITAR ATIVO', res);
+    await sendError(error, req.body, 'EDITAR INVESTIMENTO', res);
   }
 };

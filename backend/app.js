@@ -31,6 +31,9 @@ app.use("/api/jwt", jwt);
 
 /*Modulos*/
 jwt.use("/ativo", require("./app/ativo"));
+jwt.use("/categoria", require("./app/categoria"));
+jwt.use("/investimento", require("./app/investimento"));
+jwt.use("/setor", require("./app/setor"));
 jwt.use("/usuario", require("./app/usuario"));
 jwt.use("/feedback", require("./app/feedback"));
 

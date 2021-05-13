@@ -47,8 +47,7 @@ export default function Home({navigation}) {
   async function fetchData() {
     const response = await api.post('/jwt/ativo/list', {
       limit,
-    });
-
+    })
     if (response.data && response.data.data) {
       settotal(response.data.total);
 
@@ -110,7 +109,7 @@ export default function Home({navigation}) {
             <CardAreaDividida>
               <CardLeft>
                 <TextCardPrimary color="#fff">
-                  {item.nome ? item.nome : ''}
+                  {item.investimento ? item.investimento.codigo : ''}
                 </TextCardPrimary>
               </CardLeft>
               <CardRight>
@@ -140,7 +139,7 @@ export default function Home({navigation}) {
                 <TextCardSubtitulo>
                   Atual{' '}
                   <CurrencyFormat
-                    value={item.quantidade * item.preco || 0}
+                    value={item.quantidade * item.investimento.preco || 0}
                     renderText={(value) => <Text>{value}</Text>}
                     displayType={'text'}
                     thousandSeparator="."
@@ -155,7 +154,7 @@ export default function Home({navigation}) {
                 <TextCardSubtitulo>
                   Tenho{' '}
                   {parseFloat(
-                    ((item.quantidade * item.preco) / investimentos.atual) *
+                    ((item.quantidade * item.investimento.preco) / investimentos.atual) *
                       100,
                   ).toFixed(2)}
                   {'% '}/ Ideal{' '}
@@ -168,13 +167,13 @@ export default function Home({navigation}) {
                   Lucro{' '}
                   <CurrencyFormat
                     value={
-                      item.quantidade * item.preco -
+                      item.quantidade * item.investimento.preco -
                       item.quantidade * item.preco_medio
                     }
                     renderText={(value) => (
                       <Lucro
                         color={
-                          item.quantidade * item.preco -
+                          item.quantidade * item.investimento.preco -
                             item.quantidade * item.preco_medio >
                           0
                             ? '#5cb85c'
@@ -203,7 +202,7 @@ export default function Home({navigation}) {
                   Corretora: {item.corretora ? item.corretora : ''}
                 </TextCardSubtitulo>
                 <TextCardSubtitulo>
-                  Categoria: {item.tipo ? item.tipo : ''}
+                  Categoria: {item.categoria ? item.categoria.nome : ''}
                 </TextCardSubtitulo>
                 <TextCardSubtitulo>
                   Setor: {item.setor ? item.setor : ''}
@@ -226,8 +225,8 @@ export default function Home({navigation}) {
                     : 'Aguardar'}{' '}
                   {parseInt(
                     ((item.nota / investimentos.notas) * investimentos.atual -
-                      item.quantidade * item.preco) /
-                      item.preco,
+                      item.quantidade * item.investimento.preco) /
+                      item.investimento.preco,
                   )}
                 </TextCardSubtitulo>
                 <TextCardSubtitulo>
@@ -250,7 +249,7 @@ export default function Home({navigation}) {
                   <CurrencyFormat
                     value={
                       (item.nota / investimentos.notas) * investimentos.atual -
-                      item.quantidade * item.preco
+                      item.quantidade * item.investimento.preco
                     }
                     renderText={(value) => <Text>{value}</Text>}
                     displayType={'text'}

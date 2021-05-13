@@ -5,9 +5,7 @@ const Schema = mongoose.Schema({
     type: Boolean,
     default: true,
   },
-  fii: Boolean, 
-  acao: Boolean, 
   nome: String,
 });
 
-module.exports = mongoose.model('Setor', Schema);
+module.exports = mongoose.model('Categoria', Schema);
