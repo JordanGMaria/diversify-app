@@ -163,6 +163,7 @@ export const Input = styled.TextInput`
   border-style: solid;
   border-bottom-width: 1px;
   border-bottom-color: #202547;
+  color: #202547;
   margin-left: 10px;
   margin-right: 10px;
   padding-left: 15px;
@@ -177,6 +178,7 @@ export const InputMask = styled(TextInputMask)`
   border-style: solid;
   border-bottom-width: 1px;
   border-bottom-color: #202547;
+  color: #202547;
   margin-left: 10px;
   margin-right: 10px;
   padding-left: 15px;
