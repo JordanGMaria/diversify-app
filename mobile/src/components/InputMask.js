@@ -24,7 +24,7 @@ function Input({name, type, rawValue, ...rest}) {
         setMask(value.toString());
       },
     });
-  }, [fieldName, registerField, mask]);
+  }, [fieldName, registerField, mask, type]);
 
   useEffect(() => {
     console.log('error', error);
@@ -34,7 +34,6 @@ function Input({name, type, rawValue, ...rest}) {
     } else {
       setplaceholderTextColor('#999');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error]);
 
   return (
@@ -47,7 +46,7 @@ function Input({name, type, rawValue, ...rest}) {
         placeholderTextColor={placeholderTextColor}
         style={styleComponent}
         value={mask}
-        onChangeText={(e) => setMask(e)}
+        onChangeText={e => setMask(e)}
         {...rest}
       />
     </>
